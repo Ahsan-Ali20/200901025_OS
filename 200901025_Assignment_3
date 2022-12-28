@@ -1,0 +1,102 @@
+#include <iostream>
+#include<pthread.h>
+using namespace std;
+void Merge(int arr[], int l, int m, int r) 
+{
+  int i = l;
+  int j = m + 1;
+  int k = l;
+  /* create temp array */
+  int temp[15];
+  while (i <= m && j <= r) 
+  {
+    if (arr[i] <= arr[j]) 
+	{
+      temp[k] = arr[i];
+      i++;
+      k++;
+    } else 
+	{
+      temp[k] = arr[j];
+      j++;
+      k++;
+    }
+
+  }
+  /* Copy the remaining elements of first half, if there are any */
+  while (i <= m) 
+  {
+    temp[k] = arr[i];
+    i++;
+    k++;
+  }
+  /* Copy the remaining elements of second half, if there are any */
+  while (j <= r) 
+  {
+    temp[k] = arr[j];
+    j++;
+    k++;
+  }
+  /* Copy the temp array to original array */
+  for (int p = l; p <= r; p++) 
+  {
+    arr[p] = temp[p];
+  }
+}
+/* l is for left index and r is right index of the 
+   sub-array of arr to be sorted */  
+void Merge_SORT(int arr[], int l, int r)  // function to sort an array using merge sort
+{
+  if (l < r)
+   {
+    // find midpoint
+    int m = (l + r) / 2;
+    // recurcive mergesort first and second halves 
+    Merge_SORT(arr, l, m);
+    Merge_SORT(arr, m + 1, r);
+    // merge 
+    Merge(arr, l, m, r);
+  }
+}
+
+int main() 
+{
+  int No_of_Elements;
+  cout<<"=================================================="<<endl;
+  cout<<"             200901025-Muhammad Ahsan Ali         "<<endl;
+  cout<<"=================================================="<<endl;
+  cout<<"               Multithreded Merge Sort            "<<endl;
+  cout<<"=================================================="<<endl;
+  cout<<"Input the No. of Array Elements to Sort = ";
+  cin>>No_of_Elements;
+  int My_Array[No_of_Elements];
+  //int arr_size = sizeof(myarray)/sizeof(myarray[0]);
+  int Array_Size = No_of_Elements;
+  pthread_t t_id1,t_id2;
+  cout<<"--------------------------------------------------"<<endl;
+  cout << "Input the Array Elements = ";
+  for (int i = 0; i < No_of_Elements; i++) 
+  {
+    cin >> My_Array[i];
+  }
+  cout<<"--------------------------------------------------"<<endl;
+  cout << "The No. of Array Elements Before Sorting are = " ;
+  for (int i = 0; i < No_of_Elements; i++) 
+  {
+    cout << My_Array[i] << " ";
+  }
+  pthread_create (&t_id1&Merge_SORT,0,Array_Size-1);
+  pthread_create (&t_id2,&Merge_SORT, Array_Size / 2, Array_Size - 1); 
+  cout << endl;  
+  pthread_join(t_id1,NULL);
+  pthread_join(t_id2,NULL);  
+  Merge_SORT(My_Array, 0, (Array_Size - 1)); // mergesort(arr,left,right) called
+  cout<<"--------------------------------------------------"<<endl;
+  cout << "The No. of Array Elements After Sorting are = " ;
+  for (int i = 0; i < No_of_Elements; i++) 
+  {
+    cout << My_Array[i] << " ";
+  }
+  cout<<"\n=================================================="<<endl;
+return 0;
+}
