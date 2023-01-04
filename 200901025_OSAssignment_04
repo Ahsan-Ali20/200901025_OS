@@ -1,0 +1,87 @@
+//
+//  main.cpp
+//  OS_Asssignments
+//
+//  Created by Ahsan Ali Awan on 04/01/2023.
+//
+#include <iostream>
+#include <thread>
+#include <cctype>
+using namespace std;
+string str;
+string Reverse_String="";
+// Input_THREAD()==> Takes Input
+void Input_THREAD()
+{
+   // Take input from user
+   cout << "Input the String you want to Reverse,Capital and Shift: "<<endl;
+   cin>>str;
+   cout<<"-----------------------------------------------------"<<endl;
+   cout<<"\nThe Input String is: "<<str;
+}
+//Reverse_THREAD() ==> Print the reverse stirng
+void Reverse_THREAD()
+{
+    cout<<"\nThe Reverse String is: ";
+    // for loop to print the reverse stirng
+    for(int i=str.size()-1;i>=0;i--)
+    {
+        //reverse the string
+        Reverse_String+=str[i];
+    }
+    cout<<Reverse_String;
+}
+//Capital_Thread() ==> Function used to convert the stirng into CAPITAL Letters
+void Capital_Thread()
+{
+    string Capital=str;
+    for (int i = 0 ; str[i] != '\0'; i++)
+    {
+        Capital[i] -= 32;
+        
+    }
+    cout<<"\nThe Capitalize Characters of String is: "<<Capital<<endl;
+}
+// Shift_THREAD() ==> This function is used to shift a string 2 characters.
+void Shift_THREAD()
+{
+    int Character_Str;
+    
+    for (int x = 0; x < str.length(); x++)
+    {
+        Character_Str = int(str[x]);
+
+        if (Character_Str == 122)
+        {
+            str[x] = char(97);
+        }
+        else if (Character_Str == 90)
+        {
+            str[x] = char(65);
+        }
+        else if (Character_Str >= 65 && Character_Str <= 90 || Character_Str >= 97 && Character_Str <= 122)
+        {
+            str[x] = char(Character_Str + 2);
+        }
+    }
+    cout<<"The Shifted String is: " <<str<<endl;
+    cout<<"\n-----------------------------------------------------"<<endl;
+}
+int main()
+{
+    cout<<"===================================================="<<endl;
+    cout<<"     200901025_OPERATING_SYSTEM_ASSIGNMENT_04"<<endl;
+    cout<<"===================================================="<<endl;
+    thread thread_1(Input_THREAD);
+    thread_1.join();
+    
+    thread thread_2(Reverse_THREAD);
+    thread_2.join();
+    
+    thread thread_3(Capital_Thread);
+    thread_3.join();
+    
+    thread thread_4(Shift_THREAD);
+    thread_4.join();
+    return 0;
+}
